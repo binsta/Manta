@@ -119,22 +119,6 @@ fn cannot_register_candidate_if_too_many() {
 }
 
 #[test]
-#[ignore = "We don't need this test case any more due to MinCandidates removed."]
-fn cannot_unregister_candidate_if_too_few() {
-	new_test_ext().execute_with(|| {
-		// reset desired candidates:
-		<crate::DesiredCandidates<Test>>::put(1);
-		assert_ok!(CollatorSelection::register_as_candidate(Origin::signed(4)));
-
-		// can not remove too few
-		assert_noop!(
-			CollatorSelection::leave_intent(Origin::signed(4)),
-			Error::<Test>::TooFewCandidates,
-		);
-	})
-}
-
-#[test]
 fn cannot_register_as_candidate_if_invulnerable() {
 	new_test_ext().execute_with(|| {
 		assert_eq!(CollatorSelection::invulnerables(), vec![1, 2]);
